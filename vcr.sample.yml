@@ -1,0 +1,28 @@
+project:
+    name: vcr-disconnected-call
+instance:
+    name: dev
+    runtime: nodejs22
+    region: aws.apse1
+    application-id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    environment:
+        - name: ENV_VAR
+          value: vcr-disconnected-call
+        - name: VONAGE_VGAI_KEY
+          value: YOUR_VONAGE_VGAI_KEY
+        - name:   KINTONE_DOMAIN
+          value: YOUR_KINTONE_DOMAIN
+        - name: KINTONE_LOGS_APP_ID
+          value: YOUR_KINTONE_LOGS_APP_ID
+        - name: KINTONE_LOGS_API_KEY
+          value: YOUR_KINTONE_LOGS_API_KEY
+    entrypoint:
+        - node
+        - index.js
+debug:
+    name: debug
+    application-id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    entrypoint:
+        - nodemon
+        - --inspect
+        - index.js
