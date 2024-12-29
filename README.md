@@ -28,19 +28,26 @@
 
 ## 使用方法
 
-1.必要な環境変数を設定します。
+1.プロジェクトを Clone します。
+
+  ```bash
+  git clone https://github.com/mobilebiz/vcr-disconnected-call.git
+  cd vcr-disconnected-call
+  ```
+
+2.必要な環境変数を設定します。
 
   ```bash
   mv vcr.sample.yml vcr.yml  
   ```
   
-2.プロジェクトの依存関係をインストールします。
+3.プロジェクトの依存関係をインストールします。
 
   ```bash
   npm install
   ```
 
-3.デバッグモードで起動する場合は、以下のコマンドで起動します。
+4.デバッグモードで起動する場合は、以下のコマンドで起動します。
 
   ```bash
   npm run debug
@@ -52,7 +59,7 @@
 
 `XXXXXXXX`の部分はご自分の環境に合わせて更新してください。
 
-4.アプリケーションの本番環境へのデプロイは、以下のコマンドを実行します。
+5.アプリケーションの本番環境へのデプロイは、以下のコマンドを実行します。
 
   ```bash
   vcr deploy
