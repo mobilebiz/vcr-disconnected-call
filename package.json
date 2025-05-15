@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "deploy": "vcr deploy",
     "debug": "vcr debug"
   },
   "author": "Katsumi Takahashi",
