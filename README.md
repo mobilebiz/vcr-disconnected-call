@@ -7,7 +7,7 @@
 このプロジェクトは、以下の記事と関連しています。
 この記事の内容を事前に実施しておいてください。
 
-[kintone × AI Studio 着信ハンズオン](https://zenn.dev/kwcplus/articles/kintone-incoming-agent)
+[V Callプラグイン 着信カスタマイズ（基礎編）](https://zenn.dev/kwcplus/articles/vcall-incoming-basic)
 
 ## 主な機能
 
