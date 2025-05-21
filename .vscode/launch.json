@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm run debug",
+            "command": "VCR_PORT=3001 npm run start",
             "name": "Start Debugger",
             "request": "launch",
             "type": "node-terminal"

@@ -20,7 +20,7 @@
 
 `vcr.yml`に、以下の環境変数を設定する必要があります。
 
-- `VCR_PORT`: アプリケーションがリッスンするポート番号。
+- `application-id`: AI StudioのアプリケーションID。
 - `VONAGE_VGAI_KEY`: Vonage AI StudioのAPIキー。
 - `KINTONE_DOMAIN`: Kintoneのドメイン。
 - `KINTONE_LOGS_APP_ID`: KintoneのアプリID。
@@ -51,6 +51,12 @@
 
   ```bash
   npm run debug
+  ```
+
+  途中で以下の質問が出たら、`y`で応答してください。
+
+  ```bash
+  Are you sure you want to debug with instance app id ? [y/n]:
   ```
 
 　デバッグモードで起動ができたら、払い出されたURLをAI StudioのStartノードの`Call Disconnected Webhook`に設定してください。
