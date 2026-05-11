@@ -2,7 +2,7 @@
 
 ## 概要
 
-このプロジェクトは、Vonage AI StudioとKintoneを統合し、通話の録音データを取得してKintoneに保存するNode.jsアプリケーションです。Expressを使用してAPIサーバーを構築し、VonageのAPIを通じて通話データを取得し、KintoneのAPIを使用してデータを保存します。
+このプロジェクトは、Vonage AI Studioとkintoneを統合し、通話の録音データを取得してkintoneに保存するNode.jsアプリケーションです。Expressを使用してAPIサーバーを構築し、VonageのAPIを通じて通話データを取得し、kintoneのAPIを使用してデータを保存します。
 
 このプロジェクトは、以下の記事と関連しています。
 この記事の内容を事前に実施しておいてください。
@@ -13,7 +13,7 @@
 
 - **通話切断イベントの処理**: Vonage AI Studioから通話切断イベントを受信し、通話の録音データを取得します。
 - **録音データの保存**: 取得した録音データを一時ファイルとしてローカルに保存します。
-- **Kintoneへのデータ保存**: 録音データをKintoneにアップロードし、関連する通話ログを更新します。
+- **kintoneへのデータ保存**: 録音データをkintoneにアップロードし、関連する通話ログを更新します。
 - **録音データの削除**: 処理が完了した後、ローカルに保存した録音データを削除します。
 
 ## 準備
@@ -52,11 +52,11 @@ vcr app create --voice --name vcr-disconnected-call
   `vcr.yml`に、以下の環境変数を設定する必要があります。
 
 - `application-id`: Vonage上で作成したアプリケーションID。
-- `VONAGE_VGAI_KEY`: このプロジェクトの Vonage APIキー（ダッシュボードで確認できます）。
-- `KINTONE_DOMAIN`: Kintoneのドメイン。
-- `KINTONE_LOGS_APP_ID`: KintoneのアプリID。
-- `KINTONE_LOGS_API_KEY`: KintoneのAPIキー。
-- `KINTONE_LOGS_FIELD_CODE_RECORDING`: Kintoneの録音ファイル添付フィールドのフィールドコード。
+- `VONAGE_VGAI_KEY`: Vonage AI StudioのAPIキー（AI Studioの右上の Userアイコン > Generate API Key で作成し、コピーしてください）。
+- `kintone_DOMAIN`: kintoneのドメイン。
+- `kintone_LOGS_APP_ID`: kintoneのアプリID。
+- `kintone_LOGS_API_KEY`: kintoneのAPIキー。
+- `kintone_LOGS_FIELD_CODE_RECORDING`: kintoneの録音ファイル添付フィールドのフィールドコード。
 
 3.プロジェクトの依存関係をインストールします。
 
@@ -98,13 +98,13 @@ vcr app create --voice --name vcr-disconnected-call
 
 - `express`: Webサーバーの構築に使用。
 - `axios`: HTTPリクエストの送信に使用。
-- `@kintone/rest-api-client`: Kintone APIとの通信に使用。
+- `@kintone/rest-api-client`: kintone APIとの通信に使用。
 - `form-data`: ファイルアップロードに使用。
 
 ## 注意事項
 
 - このアプリケーションは、Node.jsのモジュールシステムとしてESモジュールを使用しています。
-- KintoneのAPIキーやVonageのAPIキーは、セキュリティのために公開しないでください。
+- kintoneのAPIキーやVonageのAPIキーは、セキュリティのために公開しないでください。
 
 ## ライセンス
 
