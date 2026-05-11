@@ -29,6 +29,13 @@
     - アプリのフィールドコード（添付ファイルフィールド）
 - Vonage アプリケーションの作成（Voiceアプリケーションとして作成）
 
+:::message
+Vonage アプリケーションの作成は以下のコマンドでも実行できます。
+```sh
+vcr app create --voice --name vcr-disconnected-call
+```
+:::
+
 ## 使用方法
 
 1.プロジェクトを Clone します。
@@ -46,8 +53,8 @@
 
   `vcr.yml`に、以下の環境変数を設定する必要があります。
 
-- `application-id`: AI StudioのアプリケーションID。
-- `VONAGE_VGAI_KEY`: Vonage AI StudioのAPIキー。
+- `application-id`: Vonage上で作成したアプリケーションID。
+- `VONAGE_VGAI_KEY`: このプロジェクトの Vonage APIキー（ダッシュボードで確認できます）。
 - `KINTONE_DOMAIN`: Kintoneのドメイン。
 - `KINTONE_LOGS_APP_ID`: KintoneのアプリID。
 - `KINTONE_LOGS_API_KEY`: KintoneのAPIキー。
