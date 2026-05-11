@@ -16,15 +16,18 @@
 - **Kintoneへのデータ保存**: 録音データをKintoneにアップロードし、関連する通話ログを更新します。
 - **録音データの削除**: 処理が完了した後、ローカルに保存した録音データを削除します。
 
-## 環境変数
+## 準備
 
-`vcr.yml`に、以下の環境変数を設定する必要があります。
+本プロジェクトを実装するには、事前に以下の準備が必要です。
 
-- `application-id`: AI StudioのアプリケーションID。
-- `VONAGE_VGAI_KEY`: Vonage AI StudioのAPIキー。
-- `KINTONE_DOMAIN`: Kintoneのドメイン。
-- `KINTONE_LOGS_APP_ID`: KintoneのアプリID。
-- `KINTONE_LOGS_API_KEY`: KintoneのAPIキー。
+- VCR CLIのインストール（[こちらの記事](https://zenn.dev/kwcplus/articles/how-to-develop-vcr-on-local)を参照）
+- kintoneアプリの準備
+  - 通話ログを保存するアプリに関する以下の情報を取得してください。
+    - Cybozuドメイン（xxxxxx.cybozu.comのxxxxxx部分）
+    - アプリID
+    - APIトークン（レコード閲覧・レコード追加・レコード編集の権限が必要）
+    - アプリのフィールドコード（添付ファイルフィールド）
+- Vonage アプリケーションの作成（Voiceアプリケーションとして作成）
 
 ## 使用方法
 
@@ -40,7 +43,16 @@
   ```bash
   mv vcr.sample.yml vcr.yml  
   ```
-  
+
+  `vcr.yml`に、以下の環境変数を設定する必要があります。
+
+- `application-id`: AI StudioのアプリケーションID。
+- `VONAGE_VGAI_KEY`: Vonage AI StudioのAPIキー。
+- `KINTONE_DOMAIN`: Kintoneのドメイン。
+- `KINTONE_LOGS_APP_ID`: KintoneのアプリID。
+- `KINTONE_LOGS_API_KEY`: KintoneのAPIキー。
+- `KINTONE_LOGS_FIELD_CODE_RECORDING`: Kintoneの録音ファイル添付フィールドのフィールドコード。
+
 3.プロジェクトの依存関係をインストールします。
 
   ```bash

@@ -16,6 +16,8 @@ instance:
           value: YOUR_KINTONE_LOGS_APP_ID
         - name: KINTONE_LOGS_API_KEY
           value: YOUR_KINTONE_LOGS_API_KEY
+        - name: KINTONE_LOGS_FIELD_CODE_RECORDING
+          value: recorded
     entrypoint:
         - node
         - index.js
