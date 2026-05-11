@@ -29,12 +29,10 @@
     - アプリのフィールドコード（添付ファイルフィールド）
 - Vonage アプリケーションの作成（Voiceアプリケーションとして作成）
 
-:::message
 Vonage アプリケーションの作成は以下のコマンドでも実行できます。
 ```sh
 vcr app create --voice --name vcr-disconnected-call
 ```
-:::
 
 ## 使用方法
 
