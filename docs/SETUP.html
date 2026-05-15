@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-05-11" />
+  <title>vcr-disconnected-call セットアップマニュアル</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">@charset "UTF-8";
+:root {
+--fg: #1f2937;
+--muted: #6b7280;
+--accent: #2563eb;
+--bg: #ffffff;
+--bg-soft: #f3f4f6;
+--border: #e5e7eb;
+--code-bg: #f6f8fa;
+}
+html, body {
+margin: 0;
+padding: 0;
+background: var(--bg);
+color: var(--fg);
+font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+"Noto Sans JP", "Yu Gothic UI", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+font-size: 15px;
+line-height: 1.75;
+-webkit-font-smoothing: antialiased;
+}
+main, .doc-body {
+max-width: 860px;
+margin: 0 auto;
+padding: 48px 32px 96px;
+}
+header.title-block {
+margin: 0 0 48px;
+padding: 32px 0 24px;
+border-bottom: 2px solid var(--accent);
+}
+header.title-block h1.title {
+margin: 0 0 8px;
+font-size: 28px;
+line-height: 1.3;
+}
+header.title-block p.subtitle {
+margin: 0 0 4px;
+color: var(--muted);
+font-size: 16px;
+}
+header.title-block p.date {
+margin: 0;
+color: var(--muted);
+font-size: 13px;
+}
+h1 {
+margin: 56px 0 16px;
+padding: 8px 0 8px 14px;
+border-left: 6px solid var(--accent);
+font-size: 22px;
+line-height: 1.4;
+}
+h1:first-of-type {
+margin-top: 0;
+}
+h2 {
+margin: 36px 0 12px;
+padding-bottom: 6px;
+border-bottom: 1px solid var(--border);
+font-size: 18px;
+}
+h3 {
+margin: 28px 0 10px;
+font-size: 16px;
+color: #111827;
+}
+h4 {
+margin: 22px 0 8px;
+font-size: 15px;
+color: var(--accent);
+}
+p {
+margin: 0 0 12px;
+}
+a {
+color: var(--accent);
+text-decoration: none;
+border-bottom: 1px dotted var(--accent);
+}
+ul, ol {
+margin: 0 0 12px;
+padding-left: 1.6em;
+}
+li {
+margin: 4px 0;
+}
+code {
+font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+font-size: 13px;
+background: var(--code-bg);
+padding: 1px 6px;
+border-radius: 4px;
+border: 1px solid var(--border);
+}
+pre {
+background: var(--code-bg);
+border: 1px solid var(--border);
+border-radius: 6px;
+padding: 14px 16px;
+overflow-x: auto;
+font-size: 12.5px;
+line-height: 1.55;
+margin: 0 0 14px;
+}
+pre code {
+background: transparent;
+border: none;
+padding: 0;
+font-size: 12.5px;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+margin: 0 0 18px;
+font-size: 14px;
+}
+th, td {
+border: 1px solid var(--border);
+padding: 8px 12px;
+text-align: left;
+vertical-align: top;
+}
+th {
+background: var(--bg-soft);
+font-weight: 600;
+}
+tr:nth-child(even) td {
+background: #fafafa;
+}
+blockquote {
+margin: 0 0 14px;
+padding: 10px 16px;
+background: #fef3c7;
+border-left: 4px solid #f59e0b;
+border-radius: 0 6px 6px 0;
+color: #78350f;
+}
+blockquote p {
+margin: 0;
+}
+hr {
+border: 0;
+border-top: 1px solid var(--border);
+margin: 24px 0;
+}
+
+pre code {
+white-space: pre;
+word-break: normal;
+}
+
+@media print {
+html, body { font-size: 11pt; }
+main, .doc-body { max-width: 100%; padding: 0 12mm; }
+h1 { page-break-before: always; }
+h1:first-of-type { page-break-before: auto; }
+h1, h2, h3 { page-break-after: avoid; }
+pre, table, blockquote { page-break-inside: avoid; }
+a { color: var(--fg); border-bottom: none; }
+a[href^="http"]::after {
+content: " (" attr(href) ")";
+color: var(--muted);
+font-size: 0.85em;
+}
+}
+@page {
+size: A4;
+margin: 18mm 14mm;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">vcr-disconnected-call セットアップマニュアル</h1>
+<p class="subtitle">Vonage Cloud Runtime（VCR）が初めての方向け</p>
+<p class="date">2026-05-11</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#はじめに" id="toc-はじめに">はじめに</a>
+<ul>
+<li><a href="#このアプリでできること" id="toc-このアプリでできること">このアプリでできること</a></li>
+<li><a href="#システム全体像" id="toc-システム全体像">システム全体像</a></li>
+</ul></li>
+<li><a href="#第1部事前準備" id="toc-第1部事前準備">第1部：事前準備</a>
+<ul>
+<li><a href="#必要なもの一覧" id="toc-必要なもの一覧">1.1
+必要なもの一覧</a></li>
+<li><a href="#node.js-のインストール" id="toc-node.js-のインストール">1.2 Node.js のインストール</a></li>
+<li><a href="#vonage-アカウントの準備" id="toc-vonage-アカウントの準備">1.3 Vonage アカウントの準備</a></li>
+</ul></li>
+<li><a href="#第2部vcr-cli-のセットアップ" id="toc-第2部vcr-cli-のセットアップ">第2部：VCR CLI のセットアップ</a>
+<ul>
+<li><a href="#vcr-cli-のインストール" id="toc-vcr-cli-のインストール">2.1 VCR CLI のインストール</a></li>
+<li><a href="#vcr-cli-に認証情報を登録" id="toc-vcr-cli-に認証情報を登録">2.2 VCR CLI に認証情報を登録</a></li>
+<li><a href="#vonage-アプリケーションvoiceの作成" id="toc-vonage-アプリケーションvoiceの作成">2.3 Vonage
+アプリケーション（Voice）の作成</a></li>
+</ul></li>
+<li><a href="#第3部vonage-ai-studio-の準備" id="toc-第3部vonage-ai-studio-の準備">第3部：Vonage AI Studio の準備</a>
+<ul>
+<li><a href="#前提" id="toc-前提">3.1 前提</a></li>
+<li><a href="#ai-studio-api-key-の発行" id="toc-ai-studio-api-key-の発行">3.2 AI Studio API Key の発行</a></li>
+<li><a href="#切断-webhook-の設定あとで実施" id="toc-切断-webhook-の設定あとで実施">3.3 切断 Webhook
+の設定（あとで実施）</a></li>
+</ul></li>
+<li><a href="#第4部kintone-の準備" id="toc-第4部kintone-の準備">第4部：kintone の準備</a>
+<ul>
+<li><a href="#通話ログアプリの作成" id="toc-通話ログアプリの作成">4.1
+通話ログアプリの作成</a></li>
+<li><a href="#アプリ情報の確認" id="toc-アプリ情報の確認">4.2
+アプリ情報の確認</a></li>
+<li><a href="#api-トークンの発行" id="toc-api-トークンの発行">4.3 API
+トークンの発行</a></li>
+</ul></li>
+<li><a href="#第5部本アプリのセットアップ" id="toc-第5部本アプリのセットアップ">第5部：本アプリのセットアップ</a>
+<ul>
+<li><a href="#リポジトリの-clone" id="toc-リポジトリの-clone">5.1
+リポジトリの clone</a></li>
+<li><a href="#依存パッケージのインストール" id="toc-依存パッケージのインストール">5.2
+依存パッケージのインストール</a></li>
+<li><a href="#vcr.yml-の作成と編集" id="toc-vcr.yml-の作成と編集">5.3
+<code>vcr.yml</code> の作成と編集</a></li>
+</ul></li>
+<li><a href="#第6部動作確認デバッグモード" id="toc-第6部動作確認デバッグモード">第6部：動作確認（デバッグモード）</a>
+<ul>
+<li><a href="#デバッグモードの起動" id="toc-デバッグモードの起動">6.1
+デバッグモードの起動</a></li>
+<li><a href="#ai-studio-側に-webhook-url-を設定" id="toc-ai-studio-側に-webhook-url-を設定">6.2 AI Studio 側に Webhook
+URL を設定</a></li>
+<li><a href="#テスト発信" id="toc-テスト発信">6.3 テスト発信</a></li>
+<li><a href="#デバッグモードの終了" id="toc-デバッグモードの終了">6.4
+デバッグモードの終了</a></li>
+</ul></li>
+<li><a href="#第7部本番デプロイ" id="toc-第7部本番デプロイ">第7部：本番デプロイ</a>
+<ul>
+<li><a href="#デプロイの実行" id="toc-デプロイの実行">7.1
+デプロイの実行</a></li>
+<li><a href="#ai-studio-の-webhook-を本番-url-に変更" id="toc-ai-studio-の-webhook-を本番-url-に変更">7.2 AI Studio の Webhook
+を本番 URL に変更</a></li>
+</ul></li>
+<li><a href="#第8部困ったときに" id="toc-第8部困ったときに">第8部：困ったときに</a>
+<ul>
+<li><a href="#よくあるエラーと対処" id="toc-よくあるエラーと対処">8.1
+よくあるエラーと対処</a></li>
+<li><a href="#ログの確認" id="toc-ログの確認">8.2 ログの確認</a></li>
+</ul></li>
+<li><a href="#付録内部の動きおさらい" id="toc-付録内部の動きおさらい">付録：内部の動き（おさらい）</a></li>
+</ul>
+</nav>
+<h1 id="はじめに">はじめに</h1>
+<p>このマニュアルは、Vonage の AI Studio と kintone
+を組み合わせて「通話の録音データを自動で kintone
+に保存する」アプリケーション <code>vcr-disconnected-call</code>
+を、<strong>VCR
+が初めての方でも動かせる</strong>ようにステップごとに説明したものです。</p>
+<h2 id="このアプリでできること">このアプリでできること</h2>
+<ul>
+<li>お客様から電話がかかってくると、Vonage AI Studio が応対します。</li>
+<li>応対が終わると、本アプリが起動して以下を自動で行います。
+<ol type="1">
+<li>AI Studio から録音データを取得</li>
+<li>kintone の通話ログアプリに mp3 をアップロード</li>
+<li>通話ログレコードの「録音」フィールドに紐付け</li>
+</ol></li>
+</ul>
+<h2 id="システム全体像">システム全体像</h2>
+<pre><code>[電話の発信者]
+      │ 着信
+      ▼
+[Vonage 電話番号（apse1）]
+      │
+      ▼
+[Vonage AI Studio エージェント（US/EU）]
+      │ 通話を応対 / 録音
+      │ 通話が切断されると Webhook を呼び出す
+      ▼
+[本アプリ（VCR上で動作）]
+      │ ① Insights API でセッション情報を取得
+      │ ② JWT を decode して録音 URL を抽出
+      │ ③ Voice API（apse1）から録音ファイル取得
+      │ ④ kintone API でファイルアップロード
+      │ ⑤ kintone レコードに録音を紐付け
+      ▼
+[kintone アプリ]</code></pre>
+<h1 id="第1部事前準備">第1部：事前準備</h1>
+<p>ここでは、アプリを動かすのに必要な<strong>各種アカウントと環境</strong>を整えます。</p>
+<h2 id="必要なもの一覧">1.1 必要なもの一覧</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js（v20 以上）</td>
+<td>本アプリのランタイム</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>リポジトリの取得</td>
+</tr>
+<tr>
+<td>Vonage アカウント</td>
+<td>Voice / AI Studio の利用</td>
+</tr>
+<tr>
+<td>kintone 環境</td>
+<td>通話ログ保存先</td>
+</tr>
+<tr>
+<td>ターミナル（macOS / Linux / Windows のいずれか）</td>
+<td>コマンド実行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="node.js-のインストール">1.2 Node.js のインストール</h2>
+<p>すでに入っていれば不要です。バージョンの確認は以下のコマンドで行います。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> <span class="at">--version</span></span></code></pre></div>
+<p><code>v20.x.x</code> 以上が表示されれば OK
+です。未インストールの場合は <a href="https://nodejs.org/">Node.js
+公式サイト</a> から LTS 版をインストールしてください。</p>
+<h2 id="vonage-アカウントの準備">1.3 Vonage アカウントの準備</h2>
+<ol type="1">
+<li><a href="https://kwcplus.kddi-web.com/application/vonage">KDDIウェブコミュニケーションズの
+Vonage 申し込みページ</a>
+からアカウントを作成（または既存アカウントでログイン）します。</li>
+<li>ダッシュボードの「Getting
+Started」または「Settings」ページで、<strong>API Key</strong> と
+<strong>API Secret</strong> をメモしておきます。後ほど VCR CLI
+の設定で使います。</li>
+</ol>
+<h1 id="第2部vcr-cli-のセットアップ">第2部：VCR CLI のセットアップ</h1>
+<p>Vonage Cloud Runtime（VCR）は、Vonage
+が提供するサーバーレス実行環境です。本アプリは VCR
+上にデプロイして動かします。VCR CLI は、その VCR
+を操作するためのコマンドラインツールです。</p>
+<h2 id="vcr-cli-のインストール">2.1 VCR CLI のインストール</h2>
+<p>macOS / Linux：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> https://vcr.vonage.com/install.sh <span class="kw">|</span> <span class="fu">sh</span></span></code></pre></div>
+<p>Windows（PowerShell）：</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">iwr</span> https<span class="op">://</span>vcr<span class="op">.</span><span class="fu">vonage</span><span class="op">.</span><span class="fu">com</span><span class="op">/</span>install<span class="op">.</span><span class="fu">ps1</span> <span class="op">-</span>useb <span class="op">|</span> <span class="fu">iex</span></span></code></pre></div>
+<p>インストール後、ターミナルを再起動してから確認します。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> <span class="at">--version</span></span></code></pre></div>
+<p>バージョン番号が表示されれば成功です。</p>
+<h2 id="vcr-cli-に認証情報を登録">2.2 VCR CLI に認証情報を登録</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> configure</span></code></pre></div>
+<p>対話形式で以下を聞かれます。</p>
+<ul>
+<li><strong>API Key</strong>: 1.3 でメモした API Key</li>
+<li><strong>API Secret</strong>: 1.3 でメモした API Secret</li>
+<li><strong>Region</strong>:
+<code>aws.apse1</code>（Singapore）を選択</li>
+</ul>
+<p>ユーザーホームに設定ファイル（<code>~/.vcr-cli</code>
+など）が作成されます。</p>
+<h2 id="vonage-アプリケーションvoiceの作成">2.3 Vonage
+アプリケーション（Voice）の作成</h2>
+<p>VCR 上で動くアプリは、Vonage
+の「Application」と紐付けて動作します。Voice
+機能（録音取得）が必要なので <strong>Voice
+アプリケーション</strong>として作成します。</p>
+<p>VCR CLI で一発で作る場合：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> app create <span class="at">--voice</span> <span class="at">--name</span> vcr-disconnected-call</span></code></pre></div>
+<p>実行すると以下が表示されます。</p>
+<ul>
+<li><strong>Application
+ID</strong>（例：<code>103767cf-88d6-44f8-8ddd-235d5ce9f764</code>） →
+これを後で <code>vcr.yml</code> に記入します。</li>
+</ul>
+<p>ダッシュボードから作成する場合は、<a href="https://dashboard.nexmo.com/applications/new">Vonage Dashboard →
+Applications → Create new</a> で「Voice」を有効にして作成します。</p>
+<h1 id="第3部vonage-ai-studio-の準備">第3部：Vonage AI Studio
+の準備</h1>
+<p>通話に応対するエージェントが AI Studio
+上に必要です。<strong>本マニュアルではエージェントの作成手順そのものは扱いません</strong>が、最低限以下が用意されている前提です。</p>
+<h2 id="前提">3.1 前提</h2>
+<ul>
+<li>AI Studio 上にエージェントが作成済み</li>
+<li>そのエージェントが Vonage の電話番号に紐付いている</li>
+<li>エージェントのフローの中で、kintone
+に「着信ログレコード」を作成し、そのレコード ID を
+<code>USER.RECORD_ID</code>
+というセッション変数に格納する処理が組み込まれている</li>
+</ul>
+<p><code>USER.RECORD_ID</code>
+は本アプリが録音を紐付けるレコードを特定するために使う重要な値です。フローを設計する際は必ず設定してください。</p>
+<h2 id="ai-studio-api-key-の発行">3.2 AI Studio API Key の発行</h2>
+<p>本アプリは AI Studio Insights API
+を呼び出して録音情報を取得します。そのための API Key を発行します。</p>
+<ol type="1">
+<li><a href="https://studio.ai.vonage.com/">AI Studio</a>
+にログイン</li>
+<li>右上のユーザーアイコン → <strong>Generate API Key</strong></li>
+<li>表示された API Key をコピー（後ほど <code>VONAGE_VGAI_KEY</code>
+として使用）</li>
+</ol>
+<h2 id="切断-webhook-の設定あとで実施">3.3 切断 Webhook
+の設定（あとで実施）</h2>
+<p>通話が切断されたときに本アプリに通知してもらう Webhook URL を、AI
+Studio のフローの <strong>Start ノード → Call Disconnected
+Webhook</strong>
+に設定します。これはアプリをデプロイしたあとで行うので、ここでは「設定する場所」だけ覚えておいてください。</p>
+<h1 id="第4部kintone-の準備">第4部：kintone の準備</h1>
+<h2 id="通話ログアプリの作成">4.1 通話ログアプリの作成</h2>
+<p>kintone
+で「通話ログを保存するアプリ」を新規作成します。最低限、以下のフィールドを用意してください。</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>フィールド種類</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>添付ファイル</td>
+<td>録音 mp3 を保存（<strong>フィールドコード</strong>をメモ）</td>
+</tr>
+<tr>
+<td>その他、AI Studio のフローで保存したい情報（電話番号、顧客名
+など）</td>
+<td>任意</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ポイント：</strong> - フィールドコードは「フォーム設定」→
+各フィールドの「設定（歯車）」→「フィールドコード」で確認できます。 -
+例：添付ファイルフィールドのフィールドコードを <code>recorded</code>
+にする、など。</p>
+<h2 id="アプリ情報の確認">4.2 アプリ情報の確認</h2>
+<p>アプリ作成後、以下をメモします。</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>項目</th>
+<th>確認方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ドメイン</strong></td>
+<td>URL <code>https://xxxxxx.cybozu.com/...</code> の
+<code>xxxxxx</code> 部分</td>
+</tr>
+<tr>
+<td><strong>アプリ ID</strong></td>
+<td>アプリ URL <code>https://xxxxxx.cybozu.com/k/123/</code> の
+<code>123</code> 部分</td>
+</tr>
+<tr>
+<td><strong>添付ファイルフィールドのフィールドコード</strong></td>
+<td>上記 4.1 で設定した値</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api-トークンの発行">4.3 API トークンの発行</h2>
+<ol type="1">
+<li>kintone アプリの右上「設定（歯車アイコン）」をクリック</li>
+<li>「設定」タブ → 「API トークン」を選択</li>
+<li>「生成する」をクリック</li>
+<li>権限として <strong>レコード閲覧 / レコード追加 /
+レコード編集</strong> にチェックを入れる</li>
+<li>メモを入力（任意）し「保存」</li>
+<li>アプリの設定画面に戻り、必ず<strong>右上の「アプリを更新」ボタンを押す</strong>（押し忘れるとトークンが有効になりません）</li>
+<li>発行されたトークン文字列をメモ</li>
+</ol>
+<h1 id="第5部本アプリのセットアップ">第5部：本アプリのセットアップ</h1>
+<p>ここからは実際にコードを取得して動かしていきます。</p>
+<h2 id="リポジトリの-clone">5.1 リポジトリの clone</h2>
+<p>任意の作業ディレクトリで以下を実行します。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/mobilebiz/vcr-disconnected-call.git</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vcr-disconnected-call</span></code></pre></div>
+<h2 id="依存パッケージのインストール">5.2
+依存パッケージのインストール</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install</span></code></pre></div>
+<h2 id="vcr.yml-の作成と編集">5.3 <code>vcr.yml</code> の作成と編集</h2>
+<p>サンプルファイルをコピーします。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> vcr.sample.yml vcr.yml</span></code></pre></div>
+<p><code>vcr.yml</code> を開いて以下を埋めます。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> vcr-disconnected-call</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">instance</span><span class="kw">:</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> dev</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runtime</span><span class="kw">:</span><span class="at"> nodejs22</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">region</span><span class="kw">:</span><span class="at"> aws.apse1</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">application-id</span><span class="kw">:</span><span class="at"> &lt;第2部 2.3 でメモした Application ID&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> VONAGE_VGAI_KEY</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> &lt;第3部 3.2 でメモした AI Studio API Key&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> KINTONE_DOMAIN</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> &lt;第4部 4.2 でメモした kintone ドメイン&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> KINTONE_LOGS_APP_ID</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> &lt;第4部 4.2 でメモした kintone アプリ ID&gt;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> KINTONE_LOGS_API_KEY</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> &lt;第4部 4.3 でメモした API トークン&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> KINTONE_LOGS_FIELD_CODE_RECORDING</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> &lt;第4部 4.2 でメモした 添付ファイルフィールドコード&gt;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entrypoint</span><span class="kw">:</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> node</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> index.js</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="fu">debug</span><span class="kw">:</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> debug</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">    application-id</span><span class="kw">: </span><span class="at">&lt;Application ID（instance と同じでOK）</span><span class="ch">&gt;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entrypoint</span><span class="kw">:</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> nodemon</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> --inspect</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> index.js</span></span></code></pre></div>
+<h3 id="各環境変数の意味">各環境変数の意味</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>環境変数</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VONAGE_VGAI_KEY</code></td>
+<td>AI Studio の Insights API を呼ぶ時のキー</td>
+</tr>
+<tr>
+<td><code>KINTONE_DOMAIN</code></td>
+<td>kintone サブドメイン（<code>xxxxxx.cybozu.com</code> の
+<code>xxxxxx</code>）</td>
+</tr>
+<tr>
+<td><code>KINTONE_LOGS_APP_ID</code></td>
+<td>通話ログ保存先アプリの ID</td>
+</tr>
+<tr>
+<td><code>KINTONE_LOGS_API_KEY</code></td>
+<td>通話ログ保存先アプリの API トークン</td>
+</tr>
+<tr>
+<td><code>KINTONE_LOGS_FIELD_CODE_RECORDING</code></td>
+<td>録音 mp3 を保存する添付ファイルフィールドのコード</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意：</strong> <code>vcr.yml</code>
+には機密情報が含まれます。<code>.gitignore</code> で除外済みなので Git
+にコミットされませんが、共有時には十分注意してください。</p>
+<h1 id="第6部動作確認デバッグモード">第6部：動作確認（デバッグモード）</h1>
+<p>実際にデプロイする前に、ローカル開発機で動作確認をします。VCR
+には「デバッグモード」があり、ローカルのコードを VCR 上の Webhook URL
+から呼べるようになります。</p>
+<h2 id="デバッグモードの起動">6.1 デバッグモードの起動</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run debug</span></code></pre></div>
+<p>途中で以下のような確認が出たら <code>y</code> を入力します。</p>
+<pre><code>Are you sure you want to debug with instance app id ? [y/n]:</code></pre>
+<p>しばらくすると、次のような URL が表示されます。</p>
+<pre><code>✓ Debug server deployed: service_name=&quot;neru-XXXXXXXX-debug-debug&quot;
+Application Host: https://neru-XXXXXXXX-debug-debug.apse1.runtime.vonage.cloud</code></pre>
+<p>この URL の末尾に <code>/event-disconnected-call</code>
+を付けたものが、AI Studio に登録する Webhook URL です。</p>
+<pre><code>https://neru-XXXXXXXX-debug-debug.apse1.runtime.vonage.cloud/event-disconnected-call</code></pre>
+<h2 id="ai-studio-側に-webhook-url-を設定">6.2 AI Studio 側に Webhook
+URL を設定</h2>
+<ol type="1">
+<li>AI Studio でエージェントを開く</li>
+<li><strong>Start ノード</strong>をクリック</li>
+<li><strong>Call Disconnected Webhook</strong> の欄に上記の URL
+を入力</li>
+<li>エージェントを保存・公開</li>
+</ol>
+<h2 id="テスト発信">6.3 テスト発信</h2>
+<p>実際に AI Studio
+に紐付いた電話番号に電話をかけ、適当に応対して切断します。</p>
+<p>ローカルのターミナルに以下のようなログが順に出れば成功です。</p>
+<pre><code>🐞 event-disconnected-call received
+🐞 Waiting 5000ms before insights fetch (attempt 1/5)
+🐞 parameters: { ... }
+🐞 channel_data: { ... }
+🐞 recording_url: https://api-sg-1.nexmo.com/v1/files/...
+🐞 Waiting 5000ms before recording fetch (attempt 1/5)
+🐞 Recording file stream got.
+🐞 Recording file save to /tmp/CON-xxxxxxxx.mp3
+🐞 response.data: {&quot;fileKey&quot;:&quot;...&quot;}
+🐞 fileKey: ...
+🐞 Record updated.
+🐞 Recording file deleted.</code></pre>
+<p>kintone のレコードを開き、添付ファイルフィールドに mp3
+が紐付いていれば完了です。</p>
+<h2 id="デバッグモードの終了">6.4 デバッグモードの終了</h2>
+<p>ターミナルで <code>Ctrl + C</code> を押します。VCR
+側のデバッグサーバも自動的に削除されます。</p>
+<blockquote>
+<p><strong>注意：</strong> デバッグセッションは Vonage 側で「1
+アカウントあたり 1 つ」までです。前のセッションが残って <code>429</code>
+エラーが出たら、<code>vcr debug prune-sessions</code>
+を実行してから再度起動してください。</p>
+</blockquote>
+<h1 id="第7部本番デプロイ">第7部：本番デプロイ</h1>
+<p>動作確認が取れたら、本番環境にデプロイします。本番では VCR
+上のサーバが常時稼働し、AI Studio からの Webhook を受け付けます。</p>
+<h2 id="デプロイの実行">7.1 デプロイの実行</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> deploy</span></code></pre></div>
+<p>デプロイが成功すると、本番用の URL が表示されます。</p>
+<pre><code>https://neru-XXXXXXXX-vcr-disconnected-call-dev.apse1.runtime.vonage.cloud</code></pre>
+<h2 id="ai-studio-の-webhook-を本番-url-に変更">7.2 AI Studio の Webhook
+を本番 URL に変更</h2>
+<p>6.2 で設定した Webhook URL を、本番 URL に書き換えます。</p>
+<pre><code>https://neru-XXXXXXXX-vcr-disconnected-call-dev.apse1.runtime.vonage.cloud/event-disconnected-call</code></pre>
+<p>これで、実際の電話着信時に録音が自動で kintone
+に保存されるようになります。</p>
+<h1 id="第8部困ったときに">第8部：困ったときに</h1>
+<h2 id="よくあるエラーと対処">8.1 よくあるエラーと対処</h2>
+<h3 id="maximum-debug-session-limit-of-1-reached"><code>429 maximum debug session limit of 1 reached</code></h3>
+<p>過去のデバッグセッションが残っています。以下を実行してください。</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> debug prune-sessions</span></code></pre></div>
+<h3 id="audio_url-not-available-after-retries"><code>audio_url not available after retries</code></h3>
+<p>AI Studio の処理が遅れて、リトライ上限内に録音 URL
+が取得できなかったケースです。短時間で再現するなら、AI Studio
+フローの構成や Vonage 側のステータスを確認してください。</p>
+<h3 id="kintonerestapierror-404-gaia_re01-指定したレコードid-xxxが見つかりません"><code>KintoneRestAPIError [404] [GAIA_RE01] 指定したレコード（id: xxx）が見つかりません</code></h3>
+<p><code>USER.RECORD_ID</code> で指定されたレコードが kintone
+側に存在していません。以下を確認してください。</p>
+<ul>
+<li>AI Studio のフロー内で「kintone
+レコード作成」が実行されているか</li>
+<li>作成先の kintone アプリ ID と、<code>KINTONE_LOGS_APP_ID</code>
+が同じか</li>
+<li>kintone の API トークンに「レコード追加」権限があるか</li>
+</ul>
+<h3 id="unauthorized-が録音取得時に出る"><code>401 Unauthorized</code>
+が録音取得時に出る</h3>
+<p><code>VONAGE_VGAI_KEY</code> または Vonage Application の Application
+ID が正しくセットされていません。<code>vcr.yml</code> を見直し、必要なら
+<code>vcr debug</code>
+を再起動してください（環境変数の変更は再デプロイで反映されます）。</p>
+<h2 id="ログの確認">8.2 ログの確認</h2>
+<p>本番環境のログは以下で確認できます。</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcr</span> instance log <span class="at">--project-name</span> vcr-disconnected-call <span class="at">--instance-name</span> dev</span></code></pre></div>
+<h1 id="付録内部の動きおさらい">付録：内部の動き（おさらい）</h1>
+<p>詳細は README.md
+の「しくみ」セクションを参照してください。要点だけ列挙すると：</p>
+<ol type="1">
+<li>AI Studio から <code>POST /event-disconnected-call</code> の Webhook
+を受信</li>
+<li>Insights API で <code>audio_url</code>
+を取得（取得できるまで指数バックオフでリトライ）</li>
+<li><code>audio_url</code> の JWT を decode して
+<code>recordingUrl</code>（Voice API の URL）を抽出</li>
+<li>VCR SDK で Vonage Application JWT を生成し、Voice API
+へ直接アクセスして mp3 を取得</li>
+<li>mp3 を kintone にアップロードして <code>fileKey</code> を取得</li>
+<li><code>USER.RECORD_ID</code> のレコードに <code>fileKey</code>
+を紐付ける</li>
+</ol>
+<p>リージョンが AI Studio (US/EU) と Voice (apse1)
+で異なる構成のため、<code>stairway-us-east-1.ai.vonage.com</code>
+の経由がうまく動かず、Voice API
+へ直接アクセスする実装になっている点が本アプリの特徴です。</p>
+</body>
+</html>
